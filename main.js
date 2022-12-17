@@ -6,6 +6,35 @@ const FULL_HEART = '♥'
 const errorModal = document.getElementById('modal');
 errorModal.setAttribute('class', 'hidden');
 
+const likeGlyphs = Array.from(document.getElementsByClassName('like-glyph'));
+likeGlyphs.forEach(glyph => {
+  glyph.addEventListener('click', (event) => {
+    mimicServerCall()
+    // Handle successful response
+    .then((response) => likeHandler(event))
+    // Handle error
+    .catch((error) => errorHandler())
+  });
+});
+
+function likeHandler(event){
+  // Change the heart to a full heart
+  const likeGlyph = event.target;
+  if(likeGlyph.innerHTML === EMPTY_HEART){
+    likeGlyph.innerHTML = FULL_HEART;
+    likeGlyph.setAttribute('class', 'like-glyph activated-heart')
+  }
+  else{
+    likeGlyph.innerHTML = EMPTY_HEART;
+    likeGlyph.setAttribute('class', 'like-glyph ')
+  }
+}
+
+function errorHandler(){
+  errorModal.removeAttribute('class');
+  setTimeout(() => errorModal.setAttribute('class', 'hidden'), 3000);
+}
+
 
 
 //------------------------------------------------------------------------------
